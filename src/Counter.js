@@ -4,11 +4,12 @@ this is transpiled by babel as a constructor method however if not using babel w
 
 {/* When declaring function in react you do not need to start with "function, also function do not implicitly bind the parent component so when calling it you must bind the component with the bind() method."*/}
 const Counter = (props) => {
+  let index = props.index;
     return (
       <div className ="counter">
-        <button className = "counter-action decrement" onClick={() => props.changeScore(-1)}> - </button>
+        <button className = "counter-action decrement" onClick={() => props.changeScore(index,-1)}> - </button>
         <span className="counter-score">{props.score}</span>
-        <button className = "counter-action increment" onClick={() => props.changeScore(1)}> + </button>
+        <button className = "counter-action increment" onClick={() => props.changeScore(index, 1)}> + </button>
       </div>
     );
 }

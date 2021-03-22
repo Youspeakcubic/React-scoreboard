@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Header from './Header';
 import Player from './Player';
+import AddPlayerForm from './addplayerform.js';
 {/*We use prevstate as mutating current state data is not the best practice as it does not mean react will make the changes as soon as the function runs,
 by getting the previous state and changing it within the function we can make fun it is changed.*/}
 class App extends React.Component {
@@ -29,11 +30,24 @@ class App extends React.Component {
         }
       ]
     };
-    handleScoreChange(delta , id){
-      this.setState( prevState => {
-        return {
-          players: players.filter()
-        };
+
+    //player id Counter
+    prevPlayerId = 4;
+    handleScoreChange = (index, delta) => {
+      this.setState(prevState => ({
+        score:prevState.players[index].score += delta
+      }));
+    }
+    handleAddPlayer = (name) =>{
+      this.setState({
+        players:[
+          ...this.state.players,
+          {
+            name,
+            score: 0 ,
+            id: this.prevPlayerId += 1
+          }
+        ]
       });
     }
     removePlayer = (id) => {
@@ -48,22 +62,24 @@ class App extends React.Component {
       <div className = "scoreboard">
         <Header
         title="Scoreboard"
-        totalPlayers = {this.state.players.length} />
+        players={this.state.players} />
 
         {/*map function takes our array and create a copy in a new layout, in this case we are grabbing our player object
         and tell map to take the properties in the object and place them within a Player element, we defined earlier, as props*/}
 
         {/*player list */}
-        {this.state.players.map( player =>
+        {this.state.players.map( (player, index) =>
           <Player
             name = {player.name}
             score = {player.score}
             id = {player.id}
             key = {player.id.toString()}
+            index={index}
             changeScore={this.handleScoreChange}
             remPlayer = {this.removePlayer}
           />
        )}
+      <AddPlayerForm addPlayer = {this.handleAddPlayer} />
       </div>
     );
   }
